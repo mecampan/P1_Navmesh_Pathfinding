@@ -38,7 +38,7 @@ def find_path (source_point, destination_point, mesh):
         current_box = queue.pop()
 
         if current_box == endBox: 			                # success test
-            path = path_to_box(visited, endBox)
+            path = path_to_box(visited, source_point, destination_point, startBox, endBox)
             break
         
         else:
@@ -89,9 +89,15 @@ def get_constrained_point_from_box(boxA, boxB):
     y = max(boxA[2], boxB[2]), min(boxA[3], boxB[3])
     return (x[0] + x[1]) / 2, (y[0] + y[1]) / 2
 
-def path_to_box(visited, end_box):
+def path_to_box(visited, startPoint, endPoint, startBox, endBox):
     path = []
-    current_box = end_box
+
+    if startBox == endBox:
+        path.append(startPoint)
+        path.append(endPoint)
+        return path
+    
+    current_box = endBox
     neighbor = visited[current_box]
 
     while neighbor is not None:
